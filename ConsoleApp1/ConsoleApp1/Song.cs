@@ -2,20 +2,13 @@
 
 namespace ConsoleApp1
 {
-    public class Song
+    public class Song : MediaItem
     {
-        private string _title;
         private string _artist;
         private string _album;
         private int _durationSeconds;
         private string _genre;
         private int _bitrate;
-
-        public string title
-        {
-            get => _title;
-            set => _title = value;
-        }
 
         public string artist
         {
@@ -47,10 +40,10 @@ namespace ConsoleApp1
             set => _bitrate = value;
         }
 
-
-        public Song(string title, string artist, string album, int durationSeconds, string genre, int bitrate)
+        public Song(string title, string author, int year, string artist, string album,
+                    int durationSeconds, string genre, int bitrate)
+            : base(title, author, year)
         {
-            _title = title;
             _artist = artist;
             _album = album;
             _durationSeconds = durationSeconds;
@@ -58,15 +51,24 @@ namespace ConsoleApp1
             _bitrate = bitrate;
         }
 
-
-        public void Play()
+        public override void print()
         {
-            Console.WriteLine($"Воспроизведение: {_title} - {_artist}");
+            base.print();
+            Console.WriteLine($"artist: {artist}");
+            Console.WriteLine($"album: {album}");
+            Console.WriteLine($"duration (sec): {durationSeconds}");
+            Console.WriteLine($"genre: {genre}");
+            Console.WriteLine($"bitrate: {bitrate} kbps");
+        }
+
+        public override void Play()
+        {
+            Console.WriteLine($"Воспроизведение: {title} - {artist}");
         }
 
         public void Pause()
         {
-            Console.WriteLine($"Пауза: {_title} - {_artist}");
+            Console.WriteLine($"Пауза: {title} - {artist}");
         }
 
         public void GetQualityInfo()
@@ -78,18 +80,7 @@ namespace ConsoleApp1
             else if (_bitrate >= 128) quality = "Приемлемое";
             else quality = "Низкое";
 
-            Console.WriteLine($"Качество трека '{_title}': {quality} (битрейт: {_bitrate} kbps)");
-        }
-
-        public void print()
-        {
-            Console.WriteLine($"title: {title}");
-            Console.WriteLine($"artist: {artist}");
-            Console.WriteLine($"album: {album}");
-            Console.WriteLine($"duration (sec): {durationSeconds}");
-            Console.WriteLine($"genre: {genre}");
-            Console.WriteLine($"bitrate: {bitrate} kbps");
-            Console.WriteLine(new string('-', 25));
+            Console.WriteLine($"Качество трека '{title}': {quality} (битрейт: {_bitrate} kbps)");
         }
     }
 }
