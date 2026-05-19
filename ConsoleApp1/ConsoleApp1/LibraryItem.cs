@@ -6,6 +6,7 @@ namespace LibrarySystem
     {
         public int Id { get; set; }
         public DateTime DateReceived { get; set; }
+        public DateTime? DueDate { get; protected set; }
 
         private static int _totalCount = 0;
         public static int TotalCount => _totalCount;
@@ -26,7 +27,8 @@ namespace LibrarySystem
             if (_isAvailable)
             {
                 _isAvailable = false;
-                Console.WriteLine($"Предмет ID {Id} выдан");
+                DueDate = DateTime.Now.AddDays(30); 
+                Console.WriteLine($"Предмет ID {Id} выдан. Срок возврата: {DueDate.Value.ToShortDateString()}");
             }
             else
             {
@@ -39,6 +41,7 @@ namespace LibrarySystem
             if (!_isAvailable)
             {
                 _isAvailable = true;
+                DueDate = null;
                 Console.WriteLine($"Предмет ID {Id} возвращён");
             }
             else

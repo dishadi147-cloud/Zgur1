@@ -17,6 +17,18 @@ namespace LibrarySystem
         public void AddItem(T item)
         {
             _items.Add(item);
+            Console.WriteLine($"Предмет ID {item.Id} добавлен в библиотеку");
+        }
+
+        public bool RemoveItem(T item)
+        {
+            if (_items.Remove(item))
+            {
+                Console.WriteLine($"Предмет ID {item.Id} удалён из библиотеки");
+                return true;
+            }
+            Console.WriteLine($"Ошибка: предмет ID {item.Id} не найден в библиотеке");
+            return false;
         }
 
         public void BorrowItem(T item)
@@ -42,6 +54,20 @@ namespace LibrarySystem
         public T? FindById(int id)
         {
             return _items.FirstOrDefault(item => item.Id == id);
+        }
+
+
+        public static Library<T> operator +(Library<T> library, T item)
+        {
+            library.AddItem(item);
+            return library;
+        }
+
+
+        public static Library<T> operator -(Library<T> library, T item)
+        {
+            library.RemoveItem(item);
+            return library;
         }
     }
 }
